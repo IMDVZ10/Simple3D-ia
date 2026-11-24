@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple3D AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Simple3D AI</h1>
+    <p>Transforme suas ideias em animações 3D.</p>
+  </header>
+
+  <main>
+    <section class="generator">
+      <h2>Crie sua animação</h2>
+
+      <label for="prompt">Descreva a cena que deseja criar:</label>
+
+      <textarea id="prompt" placeholder="Ex: Dois bonequinhos jogando futebol em um campo..."></textarea>
+
+      <label for="duration">Duração do vídeo</label>
+      <select id="duration">
+        <option value="5">5 segundos</option>
+        <option value="10">10 segundos</option>
+        <option value="15">15 segundos</option>
+      </select>
+
+      <label for="format">Formato</label>
+      <select id="format">
+        <option value="16:9">Horizontal (16:9)</option>
+        <option value="9:16">Vertical (9:16)</option>
+      </select>
+
+      <button id="generate">Criar animação 3D</button>
+
+      <div id="preview">
+        <p>Sua animação aparecerá aqui.</p>
+      </div>
+
+      <p id="status"></p>
+      <button id="export" type="button" hidden>Exportar MP4</button>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
