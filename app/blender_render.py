@@ -26,6 +26,8 @@ def render_scene(plan: ScenePlan, output_directory: Path) -> Path:
 
     output_directory.mkdir(parents=True, exist_ok=True)
     output = output_directory / "simple3d-preview.mp4"
+    if output.exists():
+        output.unlink()
     script = Path(__file__).resolve().parent.parent / "blender" / "render_scene.py"
 
     if not script.exists():
@@ -49,13 +51,18 @@ def render_scene(plan: ScenePlan, output_directory: Path) -> Path:
     with tempfile.TemporaryDirectory(prefix="simple3d-") as temp_directory:
         environment = subprocess.os.environ.copy()
         environment["TEMP"] = temp_directory
-        result = subprocess.run(
-            command,
-            capture_output=True,
-            text=True,
-            timeout=180,
-            env=environment,
-        )
+        try:
+            result = subprocess.run(
+                command,
+                capture_output=True,
+                text=True,
+                timeout=180,
+                env=environment,
+            )
+        except subprocess.TimeoutExpired as error:
+            raise RuntimeError(
+                "A renderização excedeu o limite de 180 segundos."
+            ) from error
 
     if result.returncode != 0:
         detail = result.stderr.strip() or result.stdout.strip() or "Falha desconhecida"

@@ -37,8 +37,48 @@ bpy.ops.mesh.primitive_cylinder_add(vertices=16, radius=0.12, depth=1.1, locatio
 right_leg = bpy.context.object
 right_leg.name = "RightLeg"
 
+second_character = None
+ball = None
+
+if kind == "talking":
+    bpy.ops.mesh.primitive_uv_sphere_add(
+        segments=32,
+        ring_count=16,
+        radius=0.55,
+        location=(2.2, 0.6, 2.2),
+    )
+    second_head = bpy.context.object
+    second_head.name = "SecondHead"
+    second_head.data.materials.append(bpy.data.materials.new(name="SecondSkin"))
+
+    bpy.ops.mesh.primitive_cylinder_add(
+        vertices=16,
+        radius=0.42,
+        depth=1.5,
+        location=(2.2, 0.6, 1.05),
+    )
+    second_character = bpy.context.object
+    second_character.name = "SecondBody"
+    second_character.data.materials.append(bpy.data.materials.new(name="SecondShirt"))
+
+elif kind == "soccer":
+    bpy.ops.mesh.primitive_uv_sphere_add(
+        segments=24,
+        ring_count=12,
+        radius=0.42,
+        location=(1.25, 0, 0.42),
+    )
+    ball = bpy.context.object
+    ball.name = "Ball"
+    ball.data.materials.append(bpy.data.materials.new(name="BallMaterial"))
+
 for mesh in (plane, head, body, left_leg, right_leg):
     mesh.show_axis = False
+
+if second_character:
+    second_character.show_axis = False
+if ball:
+    ball.show_axis = False
 
 if kind == "talking":
     head.rotation_euler[2] = math.radians(12)
@@ -48,11 +88,17 @@ elif kind == "walking":
 
 bpy.ops.object.light_add(type="AREA", location=(4, -4, 7))
 bpy.context.object.data.energy = 900
+if hasattr(bpy.context.object.data, "use_shadow"):
+    bpy.context.object.data.use_shadow = True
 
 bpy.ops.object.camera_add(location=(6, -8, 5))
 camera = bpy.context.object
 camera.rotation_euler = (math.radians(62), 0, math.radians(38))
 bpy.context.scene.camera = camera
+scene = bpy.context.scene
+scene.render.film_transparent = False
+scene.render.image_settings.color_mode = "RGB"
+scene.render.resolution_percentage = 100
 
 scene = bpy.context.scene
 try:

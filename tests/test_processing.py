@@ -21,6 +21,10 @@ class ProcessingTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             create_scene_plan("Um astronauta no planeta Marte", 5, "16:9")
 
+    def test_invalid_duration_and_format_are_rejected(self):
+        self.assertFalse(validate_request("Andando", "20", "16:9")["ok"])
+        self.assertFalse(validate_request("Andando", "5", "1:1")["ok"])
+
 
 if __name__ == "__main__":
     unittest.main()
