@@ -83,6 +83,24 @@ button:hover {
   background: #897aff;
 }
 
+button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+#export {
+  margin-top: 15px;
+  background: #303853;
+}
+
+#export:hover {
+  background: #3c465f;
+}
+
+#export[hidden] {
+  display: none;
+}
+
 #preview {
   margin-top: 25px;
   min-height: 180px;
